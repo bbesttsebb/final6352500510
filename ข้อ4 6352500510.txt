@@ -1,0 +1,38 @@
+mport rospy
+from std_msgs.msg import Int64
+
+def publish_student_id():
+    rospy.init_node('publish_node', anonymous=True)
+    pub = rospy.Publisher('/std_id', Int64, queue_size=10)
+    rate = rospy.Rate(1)  # 1 Hz
+
+    student_id = 6352500510
+
+    while not rospy.is_shutdown():
+        pub.publish(student_id)
+        rospy.loginfo('Published student ID: %d', student_id)
+        rate.sleep()
+
+if _name_ == '_main_':
+    try:
+        publish_student_id()
+    except rospy.ROSInterruptException:
+        pass
+
+
+import rospy
+from std_msgs.msg import Int64
+
+def callback(data):
+    rospy.loginfo('Received student ID: %d', data.data)
+
+def subscribe_student_id():
+    rospy.init_node('subscribe_node', anonymous=True)
+    rospy.Subscriber('/std_id', Int64, callback)
+    rospy.spin()
+
+if _name_ == '_main_':
+    try:
+        subscribe_student_id()
+    except rospy.ROSInterruptException:
+        pass

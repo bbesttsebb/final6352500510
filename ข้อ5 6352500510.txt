@@ -1,0 +1,15 @@
+import rospy
+from std_srvs.srv import Empty
+
+def service_client():
+    rospy.wait_for_service('/hi')
+    try:
+        hi_service = rospy.ServiceProxy('/hi', Empty)
+        response = hi_service()
+        rospy.loginfo('Service response received')
+    except rospy.ServiceException as e:
+        rospy.loginfo('Service call failed: %s', e)
+
+if __name__ == '__main__':
+    rospy.init_node('hi_client')
+    service_client()
